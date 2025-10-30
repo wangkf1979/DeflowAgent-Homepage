@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeflowAgent - AI-Driven Future</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for effects */
+        body {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #050505; /* Darker background */
+            color: #E0E0E0;
+        }
+
+        /* Gradient glowing border - Card */
+        .card-border-gradient {
+            position: relative;
+            background: #0D0D0D; /* Card background color */
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 1px; /* Border width */
+            transition: all 0.3s ease;
+        }
+
+        .card-border-gradient::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: conic-gradient(from 180deg at 50% 50%, #2a8af6, #a855f7, #e92a67, #a855f7, #2a8af6); /* Adjusted gradient */
+            z-index: 0;
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+        
+        .card-border-gradient:hover::before {
+            opacity: 1;
+            filter: blur(3px);
+        }
+
+        .card-content {
+            position: relative;
+            background: #0D0D0D; /* Ensure content background covers gradient */
+            border-radius: 11px; /* 1px smaller than parent for padding */
+            padding: 24px;
+            z-index: 1;
+        }
+
+        /* Gradient text */
+        .text-gradient {
+            background: linear-gradient(90deg, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Gradient glowing button */
+        .btn-glow {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px 0 rgba(168, 85, 247, 0.5); /* Purple glow */
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 25px 5px rgba(168, 85, 247, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Background grid and glow */
+        .main-background {
+            position: relative;
+        }
+        
+        .main-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0) 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Custom Logo styles */
+        .logo-icon-gradient {
+            background: linear-gradient(135deg, #3b82f6, #a855f7, #e92a67);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Icon Glow for SVG */
+        .icon-glow {
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+            transition: all 0.3s ease;
+        }
+        .group:hover .icon-glow {
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8));
+        }
+
+        /* Modal styles */
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Invite code input styles */
+        .invite-input {
+            -moz-appearance: textfield; /* Firefox */
+        }
+        .invite-input::-webkit-outer-spin-button,
+        .invite-input::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Safari and Chrome */
+            margin: 0;
+        }
+
+        /* Ticker Styles */
+        @keyframes scrollTicker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); } /* Scrolls one full container width */
+        }
+
+        .ticker-track {
+            display: flex;
+            /* The animation will scroll one of the two containers */
+            animation: scrollTicker 60s linear infinite; 
+            will-change: transform;
+        }
+        
+        .no-animation {
+            animation: none;
+        }
+
+        .ticker-items-container {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .ticker-item {
+            padding-left: 1.5rem; /* 24px */
+            padding-right: 1.5rem; /* 24px */
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.25rem; /* 20px */
+            color: #D1D5DB; /* text-gray-300 */
+        }
+    </style>
+</head>
+<body class="main-background">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-sm bg-black/30 border-b border-gray-800/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3b82f6" />
+                            <stop offset="50%" stop-color="#a855f7" />
+                            <stop offset="100%" stop-color="#e92a67" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="12" cy="12" r="10" fill="url(#logoGradient)" opacity="0.2"/>
+                    <path d="M7 12C7 9.17157 9.17157 7 12 7C14.8284 7 17 9.17157 17 12C17 14.8284 14.8284 17 12 17C9.17157 17 7 14.8284 7 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" fill="url(#logoGradient)"/>
+                    <path d="M12 2L12 4M2 12L4 12M12 20L12 22M20 12L22 12M4.92893 4.92893L6.34315 6.34315M17.6569 17.6569L19.0711 19.0711M4.92893 19.0711L6.34315 17.6569M17.6569 6.34315L19.0711 4.92893" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-2xl font-bold text-gradient">DeflowAgent</span>
+            </div>
+            
+            <!-- Links -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#products" class="text-gray-300 hover:text-white transition-colors">Products</a>
+                <a href="#how" class="text-gray-300 hover:text-white transition-colors">How it Works</a>
+                <a href="#agents" class="text-gray-300 hover:text-white transition-colors">Agents</a>
+                <a href="#why" class="text-gray-300 hover:text-white transition-colors">Why Us</a>
+                <a href="#reviews" class="text-gray-300 hover:text-white transition-colors">Reviews</a>
+                <a href="#about" class="text-gray-300 hover:text-white transition-colors">About Us</a>
+                <button id="signup-button" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-medium btn-glow">
+                    Sign Up
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <svg class="w-6 h-6 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Crypto Ticker -->
+    <div class="w-full bg-black/50 border-b border-t border-gray-800/50 overflow-hidden whitespace-nowrap relative z-40 py-2">
+        <div id="ticker-track" class="flex">
+            <!-- JavaScript will populate this content -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 relative z-10">
+        
+        <!-- Hero Section -->
+        <section class="text-center max-w-4xl mx-auto py-24 md:py-32">
+            
+            <div class="inline-block px-4 py-1.5 rounded-full border border-purple-500/50 bg-purple-900/20 text-purple-300 text-base font-medium mb-8">
+                ✨ AI-Driven Decentralized Agents
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                <span class="text-gradient">Automate</span> Your Web3 Interactions
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Leverage our advanced AI agent network to execute tasks, analyze data, and maximize yield in the complex DeFi & Web3 ecosystem.
+            </p>
+            
+        </section>
+
+        <!-- What is (Products) Section -->
+        <section id="products" class="py-16 md:py-20 group">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Icon Column -->
+                <div class="flex justify-center">
+                    <svg class="w-48 h-48 icon-glow text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <defs>
+                            <linearGradient id="iconGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7" />
+                                <stop offset="100%" stop-color="#3b82f6" />
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#iconGrad1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"></path>
+                        <path stroke="url(#iconGrad1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.5 10.5c.33-.5.67-1 .5-1.5-.17-.5-.83-.5-1.5-.5-1 0-1.5.5-1.5 1.5v4c0 1 .5 1.5 1.5 1.5.67 0 1.33 0 1.5-.5.17-.5-.17-1-.5-1.5M15.5 10.5c.33-.5.67-1 .5-1.5-.17-.5-.83-.5-1.5-.5-1 0-1.5.5-1.5 1.5v4c0 1 .5 1.5 1.5 1.5.67 0 1.33 0 1.5-.5.17-.5-.17-1-.5-1.5"></path>
+                        <path stroke="url(#iconGrad1)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21v-2m0-14V3m9 9h-2m-14 0H3m16.07-6.07-.9.9M5.83 18.17l-.9.9m13.24 0-.9-.9M5.83 5.83l-.9-.9"></path>
+                    </svg>
+                </div>
+                <!-- Text Column -->
+                <div class="text-center md:text-left">
+                    <h2 class="text-4xl font-bold mb-6 text-gradient">What is DeflowAgent AI?</h2>
+                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">
+                        DeflowAgent AI (DAA) is a powerful, intelligent trading tool designed to handle trading tasks, analyze markets, and execute active trades on your behalf.
+                    </p>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Combining AI & big data analytics, it revolutionizes the trading experience by simplifying your processes and unlocking maximum potential with new technology.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works Section -->
+        <section id="how" class="py-16 md:py-20 group">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Text Column -->
+                <div class="text-center md:text-left md:order-1">
+                    <h2 class="text-4xl font-bold mb-6 text-gradient">How Does DeflowAgent AI Work?</h2>
+                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">
+                        The fundamental logic behind DeflowAgent AI involves backtesting 7 days of historical market data to identify optimal strategy parameters, focusing on yield, arbitrage frequency, and other factors. These parameters are used to generate intelligent parameter strategies, including Futures Grid Bot, Futures Martingale, and Spot Grid.
+                    </p>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Using backtesting data, the top-performing strategies are categorized as High Yield, those with the lowest drawdown are labeled as Stable, and those with the highest trading frequency are labeled as High Frequency.
+                    </p>
+                </div>
+                <!-- Icon Column -->
+                <div class="flex justify-center md:order-2">
+                    <svg class="w-48 h-48 icon-glow text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <defs>
+                            <linearGradient id="iconGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#2dd4bf" />
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#iconGrad2)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7Z"></path>
+                        <path stroke="url(#iconGrad2)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.33 7A6 6 0 0 0 7.67 17"></path>
+                        <path stroke="url(#iconGrad2)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.6 11.5a2.5 2.5 0 0 0-3.1 3.9"></path>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Agents Section -->
+        <section id="agents" class="py-16 md:py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">Core Agents</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Agent Card 1 -->
+                <div class="card-border-gradient">
+                    <div class="card-content h-full">
+                        <h3 class="text-2xl font-semibold mb-4 text-gradient">Market Analyst</h3>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            Real-time monitoring of on-chain data, DEX trades, and social media sentiment. Discover opportunities and risks before the market moves.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Agent Card 2 -->
+                <div class="card-border-gradient">
+                    <div class="card-content h-full">
+                        <h3 class="text-2xl font-semibold mb-4 text-gradient">Yield Farmer</h3>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            Automatically shifts your funds between multiple DeFi protocols (like Aave, Compound, Uniswap) to always find the highest APY.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Agent Card 3 -->
+                <div class="card-border-gradient">
+                    <div class="card-content h-full">
+                        <h3 class="text-2xl font-semibold mb-4 text-gradient">Arbitrage Bot</h3>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            Monitors price discrepancies across different exchanges, automatically executing flash loans and arbitrage trades for risk-free profit.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <section id="why" class="py-16 md:py-20">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-4xl font-bold mb-4">Why DeflowAgent AI?</h2>
+                <p class="text-lg text-gray-400 leading-relaxed">
+                    We take the complexity out of trading with innovative, data-driven strategies designed for all types of investors.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Feature Card 1 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-transparent hover:border-purple-500/50 transition-colors duration-300">
+                    <svg class="w-12 h-12 mb-4 text-gradient" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <defs>
+                            <linearGradient id="iconGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7" />
+                                <stop offset="100%" stop-color="#e92a67" />
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#iconGrad3)" stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Simplified Experience</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        Perfect for novice traders. DAA lowers entry barrier by automating analysis, execution, and strategy - saving time and boosting efficiency.
+                    </p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-transparent hover:border-purple-500/50 transition-colors duration-300">
+                    <svg class="w-12 h-12 mb-4 text-gradient" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <defs>
+                            <linearGradient id="iconGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#a855f7" />
+                                <stop offset="100%" stop-color="#3b82f6" />
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#iconGrad4)" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Diverse Strategy Options</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        Choose from high-yield, stable, and high-frequency arbitrage strategies, tailored to individual investor needs.
+                    </p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-transparent hover:border-purple-500/50 transition-colors duration-300">
+                    <svg class="w-12 h-12 mb-4 text-gradient" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <defs>
+                            <linearGradient id="iconGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#2dd4bf" />
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#iconGrad5)" stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.329 4.329 7.37-7.37L21.75 12M2.25 6L9 12.75l4.329-4.329 7.37 7.37L21.75 9" />
+                    </svg>
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Over 70% Win Rate</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        Trust in a proven track record with over 70% win rate using the Futures Grid Bot's AI strategy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="py-16 md:py-20">
+            <h2 class="text-4xl font-bold text-center mb-12">Meet our Valued Customers</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Review 1 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl">
+                    <p class="text-gray-300 italic mb-4 text-lg leading-relaxed">"The Yield Farmer agent is incredible. I've been optimizing my APY manually for years, and DAA does it 10x better and 24/7. A total game-changer."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex-shrink-0"></div>
+                        <div class="ml-3">
+                            <p class="font-semibold text-white">Alex J.</p>
+                            <p class="text-sm text-gray-500">DeFi Trader</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl">
+                    <p class="text-gray-300 italic mb-4 text-lg leading-relaxed">"As someone new to Web3, I was intimidated. The Market Analyst agent gives me insights I can actually understand and act on. It’s like having a pro on my team."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-purple-500 flex-shrink-0"></div>
+                        <div class="ml-3">
+                            <p class="font-semibold text-white">Sarah K.</p>
+                            <p class="text-sm text-gray-500">Crypto Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-gray-900/50 p-6 rounded-xl">
+                    <p class="text-gray-300 italic mb-4 text-lg leading-relaxed">"The 70%+ win rate isn't a joke. I switched to the Futures Grid Bot AI strategy and my account has seen steady, stable growth. Highly recommend."</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-teal-500 flex-shrink-0"></div>
+                        <div class="ml-3">
+                            <p class="font-semibold text-white">David L.</p>
+                            <p class="text-sm text-gray-500">Quant Investor</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/50 mt-16">
+        <div class="container mx-auto px-6 py-12 text-gray-500">
+            
+            <!-- "Our Mission" (About Us) Section -->
+            <div id="about" class="max-w-4xl mx-auto mb-12 text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Our Mission</h2>
+                <p class="text-lg text-gray-400 leading-relaxed">
+                    Founded in 2020 by technical experts from leading exchanges and top-tier mathematical scientists, our mission is to democratize decentralized finance. We build intuitive, AI-powered agents that empower users of all levels to navigate the complexity of Web3, automating strategies to unlock new opportunities and maximize potential in a secure and efficient ecosystem. 
+                    <span class="text-gray-300 font-semibold block mt-4">We are thrilled to announce that as of August 2025, DeflowAgent has been acquired by inspirai.com.</span>
+                </p>
+            </div>
+            
+            <!-- Contacts & Info Section -->
+            <div class="border-t border-gray-800/50 pt-8 text-center">
+                
+                <!-- Contacts -->
+                <div class="mb-4 flex flex-col md:flex-row justify-center md:space-x-8 space-y-2 md:space-y-0 text-gray-400 text-base">
+                    <span>Operations: <a href="mailto:operation@deflowagent.asia" class="hover:text-blue-400 transition-colors">operation@deflowagent.asia</a></span>
+                    <span>Feedback: <a href="mailto:feedback@inspirai.com" class="hover:text-blue-400 transition-colors">feedback@inspirai.com</a></span>
+                </div>
+                
+                <!-- Copyright -->
+                <p>&copy; 2025 DeflowAgent. All rights reserved.</p>
+
+                <!-- Address -->
+                <p class="mt-4 text-gray-500 text-base">
+                    Address: Room 1012-1013, Unit 1, Building 2, Wanda Plaza, No. 8, North Section of Yanta Road, Beilin District, Xi'an, Shaanxi Province, China
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- Sign Up Modal -->
+    <div id="signup-modal" class="fixed inset-0 z-[99] flex items-center justify-center p-4 hidden">
+        <!-- Backdrop -->
+        <div id="modal-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm modal-backdrop opacity-0"></div>
+        
+        <!-- Modal Content -->
+        <div id="modal-content" class="relative bg-gray-900 border border-purple-500/50 rounded-lg shadow-xl w-full max-w-lg p-6 md:p-8 opacity-0 transform scale-95">
+            <!-- Close Button -->
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <!-- Form -->
+            <div id="form-container">
+                <h2 class="text-2xl font-semibold text-white mb-6 text-center">Join the Waitlist</h2>
+                
+                <form id="signup-form">
+                    <div class="mb-5">
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors"
+                               placeholder="you@example.com">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Invitation Code</label>
+                        <div class="flex items-center justify-center space-x-2">
+                            <!-- 8 Input Boxes -->
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <span class="text-gray-500 text-xl">-</span>
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-purple-500 focus:border-purple-500 transition-colors">
+                            <input type="text" maxlength="1" required class="invite-input w-12 h-12 bg-gray-800 border border-gray-700 text-white text-center text-lg font-mono rounded-lg focus:ring-Cpurple-500 focus:border-purple-500 transition-colors">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold text-lg btn-glow">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success Message -->
+            <div id="success-message" class="hidden text-center">
+                <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Application Received!</h3>
+                <p class="text-gray-400">We will review your application and send you an invitation email upon approval.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupButton = document.getElementById('signup-button');
+            const modal = document.getElementById('signup-modal');
+            const backdrop = document.getElementById('modal-backdrop');
+            const content = document.getElementById('modal-content');
+            const closeBtn = document.getElementById('modal-close-btn');
+            
+            const signupForm = document.getElementById('signup-form');
+            const formContainer = document.getElementById('form-container');
+            const successMessage = document.getElementById('success-message');
+            
+            const inviteInputs = document.querySelectorAll('.invite-input');
+
+            // Function to show modal
+            const showModal = () => {
+                modal.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    backdrop.classList.remove('opacity-0');
+                    content.classList.remove('opacity-0', 'scale-95');
+                });
+            };
+
+            // Function to hide modal
+            const hideModal = () => {
+                backdrop.classList.add('opacity-0');
+                content.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // Reset form
+                    formContainer.classList.remove('hidden');
+                    successMessage.classList.add('hidden');
+                    signupForm.reset();
+                }, 300); // Match transition duration
+            };
+
+            // Event Listeners for opening/closing modal
+            signupButton.addEventListener('click', showModal);
+            closeBtn.addEventListener('click', hideModal);
+            backdrop.addEventListener('click', hideModal);
+
+            // Handle form submission
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Check form validity
+                if (!signupForm.checkValidity()) {
+                    signupForm.reportValidity(); // Show browser validation errors
+                    return;
+                }
+
+                // Show success message
+                formContainer.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+
+                // Automatically close modal after 3 seconds
+                setTimeout(() => {
+                    hideModal();
+                }, 3000);
+            });
+
+            // Handle Invitation Code inputs
+            inviteInputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    // Move to next input
+                    if (e.target.value.length === 1 && index < inviteInputs.length - 1) {
+                        inviteInputs[index + 1].focus();
+                    }
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    // Move to previous input on backspace
+                    if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                        inviteInputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pasteData = (e.clipboardData || window.clipboardData).getData('text').replace(/[^a-zA-Z0-9]/g, ''); // Get pasted data and sanitize
+                    let currentInput = index;
+                    for (let i = 0; i < pasteData.length && currentInput < inviteInputs.length; i++) {
+                        inviteInputs[currentInput].value = pasteData[i];
+                        if (currentInput < inviteInputs.length - 1) {
+                            inviteInputs[currentInput + 1].focus();
+                        }
+                        currentInput++;
+                    }
+                });
+            });
+
+            // Ticker Functionality
+            const fetchCryptoPrices = async () => {
+                const tickerTrack = document.getElementById('ticker-track');
+                if (!tickerTrack) return;
+
+                try {
+                    // Fetching a good list of popular coins
+                    const coinIds = 'bitcoin,ethereum,solana,chainlink,tether,usd-coin,binancecoin,polkadot,dogecoin,cardano,avalanche-2,tron';
+                    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds}&vs_currencies=usd`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`CoinGecko API request failed with status ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Function to create a single price item
+                    const createTickerItem = (coin, price) => {
+                        const name = (coin.charAt(0).toUpperCase() + coin.slice(1)).replace('-', ' ');
+                        // Adjust formatting for stablecoins vs others
+                        const priceFormatted = price.usd.toLocaleString('en-US', { 
+                            style: 'currency', 
+                            currency: 'USD', 
+                            minimumFractionDigits: price.usd > 1 ? 2 : 4, 
+                            maximumFractionDigits: price.usd > 1 ? 2 : 4 
+                        });
+                        
+                        const item = document.createElement('div');
+                        item.className = 'ticker-item flex-shrink-0'; // CSS class will style this
+                        
+                        item.innerHTML = `
+                            <span>${name}:</span>
+                            <span class="text-white font-medium ml-2">${priceFormatted}</span>
+                        `;
+                        return item;
+                    };
+                    
+                    const items = [];
+                    for (const [coin, price] of Object.entries(data)) {
+                        items.push(createTickerItem(coin, price));
+                    }
+
+                    // Create the two identical containers for the seamless loop
+                    const track1 = document.createElement('div');
+                    track1.className = 'ticker-items-container'; // This container will be animated
+                    items.forEach(item => track1.appendChild(item.cloneNode(true)));
+                    
+                    const track2 = document.createElement('div');
+                    track2.className = 'ticker-items-container'; // This is the identical copy
+                    items.forEach(item => track2.appendChild(item.cloneNode(true)));
+                    
+                    // Add both to the main track
+                    tickerTrack.innerHTML = ''; // Clear any previous error
+                    tickerTrack.appendChild(track1);
+                    tickerTrack.appendChild(track2);
+                    
+                    // Add the animation class to the main track
+                    tickerTrack.classList.remove('no-animation');
+                    tickerTrack.classList.add('ticker-track');
+
+                } catch (error) {
+                    console.error('Failed to fetch crypto prices:', error);
+                    // Display error message in the ticker bar instead of hiding it
+                    tickerTrack.innerHTML = '<div class="ticker-item text-red-400">Failed to load real-time data. Please check connection.</div>';
+                    // Stop the animation if it was running
+                    tickerTrack.classList.add('no-animation');
+                }
+            };
+
+            fetchCryptoPrices(); // Call the new function
+        });
+    </script>
+</body>
+</html>
+
